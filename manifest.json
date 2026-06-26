@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCode GTA Mode",
+  "version": "1.0.0",
+  "description": "Turn LeetCode submissions into GTA moments with Mission Passed and Wasted overlays and sounds.",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://leetcode.com/*",
+        "https://www.leetcode.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js",
+        "mission-passed.mp3",
+        "wasted.mp3",
+        "gtaAcceptedImg.png",
+        "gtaRejectedImg.png"
+      ],
+      "matches": [
+        "https://leetcode.com/*",
+        "https://www.leetcode.com/*"
+      ]
+    }
+  ]
+}
