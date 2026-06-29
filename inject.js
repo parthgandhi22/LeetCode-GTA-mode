@@ -130,20 +130,30 @@ window.fetch = async (...args) => {
         .clone()
         .json()
         .then((data) => {
+          // Uncomment for debugging
           console.log("LC:", data);
 
           if (!data) return;
 
+          // Wait until result is finalized
           if (data.state !== "SUCCESS") {
+            return;
+          }
+
+          // Ignore Run Code / testcase runs
+          // Only react to actual submissions
+          // Ignore custom testcase runs completely
+          if (
+            data.task_name?.includes("RunCode") ||
+            String(data.submission_id).startsWith("runcode_")
+          ) {
             return;
           }
 
           const id = data.submission_id;
 
-          if (
-            id &&
-            id === lastSubmissionId
-          ) {
+          // Prevent duplicate triggers
+          if (id === lastSubmissionId) {
             return;
           }
 
@@ -157,7 +167,7 @@ window.fetch = async (...args) => {
             play(missionAudio);
             showOverlay("VICTORY");
           }
-          // Wrong Answer / TLE / RE / MLE
+          // WA, TLE, RE, MLE, etc.
           else {
             play(wastedAudio);
             showOverlay("DEFEAT");
